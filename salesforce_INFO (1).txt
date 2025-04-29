@@ -1,0 +1,284 @@
+
+public class stude {
+    public static void main(){
+        system.debug('Hello');
+    }
+}  
+
+
+Here's a clear and practical implementation guide based on your provided document, focused on Creating an Application in Salesforce.com using Apex Programming — specifically tailored for Ubuntu 20.04 via the command line (terminal) and Salesforce’s web interface.
+
+---
+
+## ✅ Practical Creating an Application in Salesforce.com using Apex Programming on Ubuntu
+
+---
+
+### 🧩 Prerequisites
+
+- Ubuntu 20.04
+- Modern browser (e.g., FirefoxChrome)
+- Internet access
+- A Salesforce Developer account  
+  👉 Register here httpsdeveloper.salesforce.comsignup
+
+---
+
+### 🛠️ Step 1 Set Up Salesforce DX (Optional, Advanced CLI Tool)
+
+If you want to use CLI on Ubuntu, install Salesforce DX (SFDX)
+
+```bash
+# Download Salesforce CLI
+wget httpsdeveloper.salesforce.commediasalesforce-clisfdx-linux-amd64.tar.xz
+
+# Extract and install
+tar -xJf sfdx-linux-amd64.tar.xz
+.sfdxinstall
+
+# Verify installation
+sfdx --version
+```
+
+Then login
+
+```bash
+sfdx authweblogin
+```
+
+This opens your browser and asks you to log into your Salesforce account.
+
+---
+
+### 🔧 Step 2 Log into Salesforce Developer Console (GUI)
+
+If you're not using the CLI, do the following
+1. Go to [httpslogin.salesforce.com](httpslogin.salesforce.com)
+2. Log in with your Developer Edition credentials
+3. Click on the top-right gear icon → Developer Console
+
+This is where you will write your Apex code.
+
+---
+
+### 📦 Step 3 Create a Custom Object (like a Table)
+
+1. In Salesforce UI, go to Setup → Search for Object Manager
+2. Click Create → Custom Object
+3. Example
+   - Label `Student`
+   - Object Name `Student`
+   - Record Name `Student Name`
+   - Data Type Text
+   - Save the object
+
+---
+
+### 💻 Step 4 Write Apex Code in Developer Console
+
+Go to Developer Console → File → New → Apex Class  
+Name `StudentHandler`
+
+Sample Apex Code
+```apex
+public class StudentHandler {
+    public static void createStudent(String name) {
+        Student__c s = new Student__c();
+        s.Name = name;
+        insert s;
+    }
+}
+```
+
+Now create an Apex trigger (optional)
+
+```apex
+trigger StudentTrigger on Student__c (before insert) {
+    for(Student__c s  Trigger.new){
+        s.Description__c = 'Created by Apex Trigger';
+    }
+}
+```
+
+---
+
+### 🧪 Step 5 Test with Anonymous Apex
+
+Go to Debug → Open Execute Anonymous Window  
+Paste and run
+
+```apex
+StudentHandler.createStudent('John Doe');
+```
+
+Then check your custom object records to verify that the record is inserted.
+
+---
+
+### ✅ Step 6 Verify Output
+
+- Navigate to App Launcher
+- Open your custom app or object (e.g., “Student”)
+- Verify that “John Doe” was added successfully
+
+---
+
+### 📌 Summary of Tools Used
+
+ Task  Tool 
+------------
+ Code authoring  Salesforce Developer Console 
+ Custom object creation  Salesforce UI 
+ CLI alternative  `sfdx` on Ubuntu 
+ DeploymentDebugging  Anonymous Apex execution 
+
+---
+
+### 📚 Reference
+
+- [Apex Overview – TutorialsPoint](httpswww.tutorialspoint.comapexapex_overview.htm)
+- [Salesforce Apex Developer Guide](httpsdeveloper.salesforce.comdocsatlas.en-us.apexcode.metaapexcode)
+- [Salesforce CLI Docs](httpsdeveloper.salesforce.comtoolssfdxcli)
+
+---
+
+===================================================================================================================================================================================================================================================Sure! Here's a detailed explanation of your practical titled **"Creating an Application in Salesforce.com using Apex Programming"**, specifically focusing on **what you're learning**, **why it matters**, and **how it's structured**.
+
+---
+
+## 💡 **Objective of the Practical**
+The aim is to:
+- Understand the **Salesforce cloud platform**.
+- Learn to create custom applications using **Apex**, Salesforce's programming language.
+- Use Salesforce’s **Developer Console** or **CLI tools** to write and test business logic.
+
+---
+
+## 🧠 **What is Apex?**
+**Apex** is Salesforce’s proprietary, object-oriented programming language (similar to Java). It’s:
+- Strongly typed
+- Used to write business logic
+- Executed on the **Salesforce platform server**
+
+It allows you to:
+- Customize how Salesforce behaves
+- Add automation, validation, and custom logic to data operations
+- React to user actions like button clicks or data updates
+
+---
+
+## 🛠️ **Tools & Platform Used**
+- **Ubuntu 20.04**: Your operating system
+- **Salesforce.com**: A web-based platform where you log in and develop your app
+- **Developer Console**: A built-in IDE inside Salesforce
+- Optionally: **Salesforce CLI (SFDX)** on Ubuntu to interact from the terminal
+
+---
+
+## ⚙️ **How the System Works**
+
+### 🔄 **Developer Action**
+When you save Apex code:
+- It's compiled by Salesforce into metadata (instructions for the platform)
+- Stored on the cloud server
+
+### ⚡ **User Action**
+When a user interacts with the system:
+- Apex code is run via Salesforce’s interpreter
+- The server executes your logic and returns results quickly
+
+---
+
+## 🧩 **Core Components of Apex**
+
+| Feature | Description |
+|--------|-------------|
+| **SOQL** | Salesforce Object Query Language, used to fetch records (like SQL) |
+| **sObject** | Represents a database object, e.g., `Account`, `Student__c` |
+| **DML** | Data Manipulation Language: insert, update, delete records |
+| **Triggers** | Code that runs automatically when certain events occur (e.g., inserting a record) |
+| **Classes & Methods** | Object-oriented structure, similar to Java |
+| **Loops & Conditionals** | Use `for`, `if`, etc., to control flow of logic |
+
+---
+
+## 🛠️ **Creating an Application: Step-by-Step Overview**
+
+1. **Log in to Salesforce Developer Account**
+2. **Create a Custom Object** (e.g., `Student`)
+3. **Write Apex Class** to insert records
+4. **Use Apex Trigger** to add automatic behavior
+5. **Execute Apex Code** using the Developer Console to test your logic
+
+---
+
+## 🔐 **Why Use Apex?**
+Use Apex when:
+- You need **custom logic** that Salesforce’s drag-and-drop tools can’t do
+- You want to **manipulate data across multiple objects**
+- You need to respond to **events like record insert/update**
+
+---
+
+## ⚠️ **Apex Limitations**
+Apex:
+- Can’t build UI directly (uses Visualforce or Lightning instead)
+- Can’t prevent standard behavior (only extend it)
+- Is sandboxed for security (has governor limits to prevent abuse)
+
+---
+
+## ✅ **Conclusion**
+By completing this practical:
+- You learn how to **develop real apps** in Salesforce
+- Understand how to **create custom objects**, **write Apex code**, and **trigger automated behaviors**
+- Gain foundational knowledge of **enterprise cloud development**
+
+---
+
+Would you like me to help you **write the final report** or **create diagrams** (like Apex lifecycle or flowchart)?
+
+CODE-
+
+public class LeaveRequestManager {
+
+    // Leave Request Object (Simulated for demonstration)
+    public class LeaveRequest {
+        public String employeeName;
+        public Date startDate;
+        public Date endDate;
+        public String reason;
+
+        public LeaveRequest(String employeeName, Date startDate, Date endDate, String reason) {
+            this.employeeName = employeeName;
+            this.startDate = startDate;
+            this.endDate = endDate;
+            this.reason = reason;
+        }
+    }
+
+    // Simulated in-memory database
+    public static List<LeaveRequest> leaveRequests = new List<LeaveRequest>();
+
+    // Method to submit a leave request
+    public static void submitLeave(String name, Date startDate, Date endDate, String reason) {
+        LeaveRequest newRequest = new LeaveRequest(name, startDate, endDate, reason);
+        leaveRequests.add(newRequest);
+        System.debug('✅ Leave request submitted for ' + name);
+    }
+
+    // Method to view all leave requests
+    public static void viewAllRequests() {
+        System.debug('📋 All Leave Requests:');
+        for (LeaveRequest req : leaveRequests) {
+            System.debug('Name: ' + req.employeeName + ', From: ' + req.startDate + ' To: ' + req.endDate + ', Reason: ' + req.reason);
+        }
+    }
+}
+
+======================================================================================================================================================================================
+LeaveRequestManager.submitLeave('Alice', Date.today(), Date.today().addDays(3), 'Vacation');
+LeaveRequestManager.submitLeave('Bob', Date.today().addDays(1), Date.today().addDays(2), 'Medical');
+LeaveRequestManager.viewAllRequests();
+
+

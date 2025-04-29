@@ -1,0 +1,96 @@
+yashkamathe0904@gmail.com
+yash@0904
+
+======================================================================================================================================================================================
+
+To install and configure **Google App Engine (GAE)** on **Ubuntu**, you typically work with the **Google Cloud SDK (gcloud)**, which includes the tools needed to deploy applications to App Engine.
+
+Here’s a step-by-step guide to install and configure GAE on Ubuntu:
+
+---
+
+### 🔧 Step 1: Install Required Dependencies
+```bash
+
+sudo apt update
+sudo apt install curl apt-transport-https ca-certificates gnupg -y
+
+- curl*: Needed to fetch files from the web.
+- *apt-transport-https*: Allows APT to use repositories over HTTPS.
+- *ca-certificates*: Ensures SSL certificates are recognized as trusted.
+- *gnupg*: Used to handle GPG keys for secure software installation.
+
+```
+
+
+### ☁️ Step 2: Add the Google Cloud SDK Repository
+```bash
+
+echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | \
+sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+
+curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | \
+sudo gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
+```
+
+---
+
+### 🔄 Step 3: Install Google Cloud SDK
+```bash
+
+sudo apt update
+sudo apt install google-cloud-sdk -y
+```
+- Installs the CLI tool (gcloud) for interacting with Google Cloud services.
+- Includes utilities to manage projects, App Engine, Compute Engine, Cloud Storage, etc.
+---
+
+### ✅ Step 4: Initialize Google Cloud SDK
+```bash
+
+gcloud init
+
+
+```
+- This command will open a browser to log into your Google account.
+- Select the project you want to use or create a new one.
+- Set the default configuration.
+
+---
+
+### 🚀 Step 5: Install App Engine Component
+```bash
+gcloud components install app-engine-java  # For Java
+gcloud components install app-engine-python  # For Python
+gcloud components install app-engine-go  # For Go
+gcloud components install app-engine-php  # For PHP
+```
+
+Install only the one you need, or all of them.
+
+---
+
+### 🌍 Step 6: Create and Set Up App Engine for Your Project
+```bash
+gcloud app create
+```
+- Choose a region for your app.
+
+---
+
+### 📦 Step 7: Deploy Your Application
+Make sure your project has an `app.yaml` file, then run:
+```bash
+gcloud app deploy
+```
+
+---
+
+### 🔍 Step 8: View Your App Online
+```bash
+gcloud app browse
+```
+
+---
+
+Would you like commands for a specific runtime like Python, Java, or Node.js?
