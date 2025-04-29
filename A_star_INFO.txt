@@ -1,0 +1,174 @@
+### Explanation of the A* Algorithm Implementation
+
+The provided code is an implementation of the **A\* (A-star)** algorithm, a popular pathfinding and graph traversal algorithm used to find the shortest path from a starting point to a goal point on a grid, considering obstacles.
+
+Here's a detailed breakdown of the code and concepts:
+
+---
+
+### **1. Class `Node`**
+
+The `Node` class represents a single point on the grid. It keeps track of:
+- **Position (`position`)**: The current coordinates (row, column) of the node.
+- **g_cost (`g_cost`)**: The cost of moving from the start node to this node. This is the number of steps taken so far.
+- **h_cost (`h_cost`)**: The heuristic cost, which is an estimate of the remaining cost to reach the goal. In this case, it uses the **Manhattan distance** between the current node and the goal.
+- **f_cost (`f_cost`)**: The total cost, calculated as `g_cost + h_cost`. This value helps determine the priority of a node in the open list (the priority queue).
+- **Parent (`parent`)**: The parent node of the current node. This is used to reconstruct the path once the goal is reached.
+
+#### `__lt__` Method
+- The `__lt__` method is used to compare two nodes. It returns `True` if the current node’s `f_cost` is less than the other node’s `f_cost`. This is important because the `heapq` library (used for the priority queue) relies on this method to determine the order of nodes.
+
+---
+
+### **2. Heuristic Function (Manhattan Distance)**
+
+```python
+def heuristic(a, b):
+    return abs(a[0] - b[0]) + abs(a[1] - b[1])
+```
+
+- This function calculates the **Manhattan distance** between two points `a` and `b`. It is used to estimate the cost of reaching the goal from the current node.
+- The **Manhattan distance** is the sum of the absolute differences between the row and column coordinates of the two points. It works well for grid-based problems where diagonal movement is not allowed.
+
+---
+
+### **3. A* Algorithm**
+
+```python
+def a_star(grid, start, goal):
+    open_list = []  # Priority queue for open nodes
+    closed_list = set()  # Set of visited nodes
+    start_node = Node(start, 0, heuristic(start, goal))  # Start node
+    heapq.heappush(open_list, start_node)  # Push start node into open list
+```
+
+- **open_list**: A priority queue (min-heap) used to store nodes that need to be explored. It stores nodes ordered by their `f_cost`.
+- **closed_list**: A set used to keep track of the nodes that have already been visited, to avoid revisiting them.
+
+The `start_node` is created with `g_cost = 0` (no cost yet), and the heuristic value (`h_cost`) is computed using the Manhattan distance from the start to the goal.
+
+---
+
+#### **Main Loop of A* Algorithm**
+
+```python
+while open_list:
+    current_node = heapq.heappop(open_list)  # Pop the node with the lowest f_cost
+    current_position = current_node.position
+
+    if current_position == goal:
+        path = []
+        while current_node:
+            path.append(current_node.position)
+            current_node = current_node.parent
+        return path[::-1]
+```
+
+- In each iteration, the node with the lowest `f_cost` is popped from the `open_list`.
+- If the current node is the goal, we reconstruct the path by following the parent nodes from the goal back to the start, and then reverse the path to get the correct order (from start to goal).
+
+---
+
+#### **Exploring Neighbors**
+
+```python
+closed_list.add(current_position)  # Mark the node as visited
+
+for direction in directions:
+    neighbor = (current_position[0] + direction[0], current_position[1] + direction[1])
+
+    if not (0 <= neighbor[0] < len(grid) and 0 <= neighbor[1] < len(grid[0])) or grid[neighbor[0]][neighbor[1]] == 1:
+        continue
+
+    if neighbor in closed_list:  # Skip if neighbor is already visited
+        continue
+```
+
+- The node’s neighbors are checked in four possible directions: up, down, left, and right.
+- We ensure that the neighbors are within the bounds of the grid and are not obstacles (`grid[neighbor[0]][neighbor[1]] == 1` indicates an obstacle).
+
+---
+
+#### **Adding Neighbors to Open List**
+
+```python
+g_cost = current_node.g_cost + 1
+h_cost = heuristic(neighbor, goal)
+neighbor_node = Node(neighbor, g_cost, h_cost, current_node)
+
+if not any(node.position == neighbor and node.f_cost <= neighbor_node.f_cost for node in open_list):
+    heapq.heappush(open_list, neighbor_node)
+```
+
+- For each valid neighbor, the `g_cost` is calculated as the cost of the current node plus 1 (each move has a cost of 1).
+- The heuristic (`h_cost`) is calculated using the Manhattan distance.
+- The `neighbor_node` is created and pushed to the open list if it is not already present with a lower `f_cost`.
+
+---
+
+### **4. Grid Visualization**
+
+```python
+def print_grid(grid):
+    for row in grid:
+        print(" ".join(str(cell) for cell in row))
+```
+
+- This function prints the grid in a readable format for visualization. `0` represents free space, and `1` represents obstacles.
+
+---
+
+### **5. Running the A* Algorithm**
+
+```python
+grid = [
+    [0, 0, 0, 0, 0],
+    [0, 1, 1, 0, 0],
+    [0, 1, 0, 1, 0],
+    [0, 0, 0, 1, 0],
+    [0, 0, 0, 0, 0]
+]
+
+start = (0, 0)  # Starting position
+goal = (4, 4)   # Goal position
+
+path = a_star(grid, start, goal)
+
+if path:
+    print("Path found:", path)
+else:
+    print("No path found")
+```
+
+- The grid is defined as a 2D list, where `0` represents a free space and `1` represents an obstacle.
+- The start and goal positions are specified.
+- The algorithm attempts to find the shortest path from the start to the goal using the A* algorithm.
+- If a path is found, it prints the path; otherwise, it prints "No path found."
+
+---
+
+### **6. Output Example**
+
+If you run this code, the output will be a path found from the start to the goal. For this example, the grid:
+
+```
+0 0 0 0 0
+0 1 1 0 0
+0 1 0 1 0
+0 0 0 1 0
+0 0 0 0 0
+```
+
+With the start at `(0, 0)` and goal at `(4, 4)`, the path found might be:
+
+```
+Path found: [(0, 0), (0, 1), (1, 1), (1, 2), (1, 3), (2, 3), (3, 3), (4, 3), (4, 4)]
+```
+
+---
+
+### **Summary**
+
+The **A* algorithm** is a powerful pathfinding algorithm that finds the shortest path between two points on a grid by considering both the actual cost to reach the current node (`g_cost`) and an estimated cost to reach the goal (`h_cost`). The algorithm uses a priority queue to prioritize nodes with the lowest total cost (`f_cost = g_cost + h_cost`). It’s widely used in games, robotics, and GPS systems.
+
+The **Manhattan distance** heuristic is suitable for grid-based movement where diagonal movement is not allowed.

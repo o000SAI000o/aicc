@@ -1,0 +1,127 @@
+You're working with an implementation of the **Selection Sort** algorithm in Python. Let’s break it down **step-by-step**, both conceptually and through the code.
+
+---
+
+## 🔍 **What is Selection Sort?**
+
+**Selection Sort** is a simple comparison-based sorting algorithm. It divides the list into two parts:
+- The **sorted** part (built from left to right)
+- The **unsorted** part (shrinks as we proceed)
+
+### 🧠 Basic Idea:
+For each position in the array:
+1. Find the **minimum** element in the unsorted part.
+2. Swap it with the element at the current position.
+3. Repeat for the next position.
+
+---
+
+## 🧾 **Detailed Code Explanation**
+
+```python
+def selection_sort(arr):
+    n = len(arr)
+```
+- We get the length of the array.
+- We'll go through the array from index `0` to `n - 1`.
+
+---
+
+### 🔁 Outer Loop
+
+```python
+for i in range(n):
+```
+- `i` is the current index where we want to place the smallest unsorted element.
+
+---
+
+### 🔍 Find the Smallest Element in Remaining Array
+
+```python
+min_idx = i
+for j in range(i+1, n):
+    if arr[j] < arr[min_idx]:
+        min_idx = j
+```
+
+- Start by assuming the element at `i` is the smallest (`min_idx = i`).
+- Loop through the rest of the array (`i+1` to `n-1`) and update `min_idx` whenever you find a smaller element.
+
+---
+
+### 🔁 Swap
+
+```python
+arr[i], arr[min_idx] = arr[min_idx], arr[i]
+```
+
+- Once the smallest element is found, **swap** it with the current index `i`.
+
+---
+
+### 🔁 Repeat
+
+The loop continues to build up the **sorted portion on the left**, moving through the array one element at a time.
+
+---
+
+### 📥 Taking Input from the User
+
+```python
+arr = list(map(int, input("Enter the numbers for selection sort: ").split()))
+```
+
+- Accepts space-separated numbers from the user.
+- Converts them to a list of integers using `map(int, ...)`.
+
+---
+
+### 🖨️ Output
+
+```python
+print("Original array:", arr)
+print("Sorted array:", selection_sort(arr))
+```
+
+---
+
+## 🔄 Example Walkthrough
+
+Input:  
+```
+Enter the numbers for selection sort: 5 4 6 3 2 8
+```
+
+### Step-by-step:
+
+- Initial: `[5, 4, 6, 3, 2, 8]`
+- Iteration 1 (`i = 0`): Find min in `[5, 4, 6, 3, 2, 8]` → 2 → Swap with 5 → `[2, 4, 6, 3, 5, 8]`
+- Iteration 2 (`i = 1`): Min in `[4, 6, 3, 5, 8]` → 3 → Swap with 4 → `[2, 3, 6, 4, 5, 8]`
+- Iteration 3 (`i = 2`): Min in `[6, 4, 5, 8]` → 4 → Swap → `[2, 3, 4, 6, 5, 8]`
+- Iteration 4 (`i = 3`): Min in `[6, 5, 8]` → 5 → Swap → `[2, 3, 4, 5, 6, 8]`
+- Iteration 5 (`i = 4`): Min in `[6, 8]` → 6 → No swap needed
+- Final: `[2, 3, 4, 5, 6, 8]`
+
+---
+
+## 📊 Time & Space Complexity
+
+| Case       | Time Complexity |
+|------------|-----------------|
+| Best Case  | O(n²)           |
+| Worst Case | O(n²)           |
+| Average    | O(n²)           |
+
+- Because it **always compares every unsorted element**, regardless of order.
+- **Space Complexity:** O(1) — it’s **in-place**, using no extra storage.
+
+---
+
+## ✅ Summary
+
+- **Simple and easy to understand**
+- **Not very efficient** for large datasets
+- Good for **learning purposes** or when memory is constrained
+
+Would you like to see this sort visualized step by step?
