@@ -1,0 +1,121 @@
+Here's a comprehensive **case study on Amazon EC2** along with detailed information about **creating an EC2 instance** and understanding the **concept behind Amazon EC2 web services**.
+
+---
+
+## 📘 **Case Study: Amazon EC2 (Elastic Compute Cloud)**
+
+### ✅ **What is Amazon EC2?**
+
+Amazon EC2 is a part of Amazon Web Services (AWS) that provides **scalable computing capacity in the cloud**. It allows users to launch **virtual servers** (called instances), configure security, and manage storage for running applications on-demand, without needing to invest in physical hardware.
+
+---
+
+## 🧠 **Concept Behind Amazon EC2**
+
+### 1. **Elasticity**
+EC2 enables you to scale capacity up or down automatically based on your application’s needs (Elastic Load Balancer + Auto Scaling Group).
+
+### 2. **On-demand Virtual Machines**
+You can launch any number of virtual servers, use them as long as needed, and shut them down when done — **pay-as-you-go**.
+
+### 3. **Instance Types**
+EC2 offers different instance types optimized for compute, memory, storage, or GPU needs (e.g., `t2.micro`, `m5.large`, `c6g.xlarge`).
+
+### 4. **Security**
+You can configure **key pairs**, **security groups**, **IAM roles**, and **Virtual Private Cloud (VPC)** for secure access and isolation.
+
+### 5. **Integration with Other AWS Services**
+EC2 integrates seamlessly with Amazon RDS, S3, CloudWatch, IAM, EBS, and more.
+
+---
+
+## ⚙️ **Steps to Create an EC2 Instance (AWS Free Tier)**
+
+### 📝 **Pre-requisites:**
+- AWS account
+- Free tier eligible
+
+---
+
+### 🔧 **Step-by-Step Guide to Launch EC2**
+
+#### 1. **Login to AWS Console**
+Go to [https://aws.amazon.com](https://aws.amazon.com) and log in.
+
+---
+
+#### 2. **Go to EC2 Dashboard**
+Search for **"EC2"** in the services search bar and click **"EC2"**.
+
+---
+
+#### 3. **Launch an Instance**
+Click on **"Launch instance"**.
+
+---
+
+#### 4. **Configure Instance Details**
+
+| Option | Recommended Setting |
+|--------|---------------------|
+| **Name** | `MyFirstEC2` |
+| **AMI** | Amazon Linux 2023 (or Ubuntu 22.04 if you prefer) |
+| **Instance Type** | `t2.micro` (Free Tier eligible) |
+| **Key Pair** | Create a new key pair (save `.pem` file) |
+| **Network Settings** | Allow SSH (port 22), HTTP (port 80), HTTPS (port 443) |
+| **Storage** | Default 8 GB is fine for testing |
+
+---
+
+#### 5. **Review and Launch**
+Click **Launch Instance** → View instances
+
+---
+
+#### 6. **Connect to Instance**
+- Select your instance → Click "Connect" → Choose **SSH client**
+- Use the terminal with your downloaded `.pem` file:
+```bash
+chmod 400 mykey.pem
+ssh -i "mykey.pem" ec2-user@<public-ip-address>
+```
+
+---
+
+## 💡 Use Case: Hosting a Simple Website
+
+Once connected via SSH:
+
+```bash
+sudo yum update -y
+sudo yum install httpd -y
+sudo systemctl start httpd
+sudo systemctl enable httpd
+echo "Welcome to My EC2 Instance Web Page" | sudo tee /var/www/html/index.html
+```
+
+Visit your **public IPv4 address** in a browser to see your web page.
+
+---
+
+## 📊 Real-World Usage of EC2
+
+| Company | Use Case |
+|--------|----------|
+| Netflix | Video streaming backend infrastructure |
+| NASA | Satellite image processing |
+| Airbnb | Hosting web applications |
+| Slack | Scalable chat architecture |
+
+---
+
+## 🔐 Key Concepts to Learn Further
+- **Security Groups vs. NACLs**
+- **Elastic IP vs. Public IP**
+- **AMI Customization**
+- **Load Balancers + Auto Scaling Groups**
+- **Spot Instances vs. Reserved vs. On-Demand**
+
+---
+
+Would you like a visual diagram for EC2 architecture or a sample real-world deployment project (like WordPress or a Flask app)?
